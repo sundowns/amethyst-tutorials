@@ -1,23 +1,5 @@
 extern crate amethyst;
 
-mod pong {
-    use amethyst::ecs::prelude::*;
-
-    pub enum Side {
-      Left,
-      Right,
-    }
-    pub struct Paddle {
-      pub side: Side,
-    }
-    impl Component for Paddle {
-      type Storage = VecStorage<Self>;
-    }
-
-    pub const ARENA_HEIGHT: f32 = 100.0;
-    pub const PADDLE_HEIGHT: f32 = 16.0;
-}
-
 use amethyst::core::Transform;
 use amethyst::ecs::{Join, Read, ReadStorage, System, WriteStorage};
 use amethyst::input::InputHandler;
