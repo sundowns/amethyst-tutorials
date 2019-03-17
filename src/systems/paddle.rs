@@ -5,7 +5,7 @@ use amethyst::ecs::{Join, Read, ReadStorage, System, WriteStorage};
 use amethyst::input::InputHandler;
 
 // You'll have to mark PADDLE_HEIGHT as public in pong.rs
-use pong::{Paddle, Side, ARENA_HEIGHT, PADDLE_HEIGHT};
+use crate::pong::{Paddle, Side, ARENA_HEIGHT, PADDLE_HEIGHT};
 
 pub struct PaddleSystem;
 
@@ -23,16 +23,14 @@ impl<'s> System<'s> for PaddleSystem {
         Side::Right => input.axis_value("right_paddle"),
       };
       if let Some(mv_amount) = movement {
-        if mv_amount != 0.0 {
-          let side_name = match paddle.side {
-            Side::Left => "left",
-            Side::Right => "right",
-          };
-          println!("Side {:?} moving {}", side_name, mv_amount);
-        }
+        let scaled_amount = 1.2 * mv_amount as f32;
+        let paddle_y = transform.translation().y;
+        transform.set_y(
+          (paddle_y + scaled_amount)
+            .min(ARENA_HEIGHT - PADDLE_HEIGHT * 0.5)
+            .max(PADDLE_HEIGHT * 0.5),
+        );
       }
     }
   }
 }
-
-fn main() {}
